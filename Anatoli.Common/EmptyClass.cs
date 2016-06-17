@@ -1,6 +1,6 @@
 ﻿namespace Anatoli.Common
 {
-    public class Class1
+    public class EmptyClass
     {
     }
 }

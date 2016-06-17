@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Anatoli.DataAccess.Models.Identity;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,11 +21,11 @@ namespace Anatoli.Common.DataAccess.Models
         [ForeignKey("DataOwnerCenter")]
         public virtual Guid DataOwnerCenterId { get; set; }
 
-        //public virtual DataOwnerCenter DataOwnerCenter { get; set; }
-        //public virtual DataOwner DataOwner { get; set; }
-        //public virtual ApplicationOwner ApplicationOwner { get; set; }
-        //public virtual Principal AddedBy { get; set; }
-        //public virtual Principal LastModifiedBy { get; set; }
+        public virtual DataOwnerCenter DataOwnerCenter { get; set; }
+        public virtual DataOwner DataOwner { get; set; }
+        public virtual ApplicationOwner ApplicationOwner { get; set; }
+        public virtual Principal AddedBy { get; set; }
+        public virtual Principal LastModifiedBy { get; set; }
 
         [ForeignKey("AddedBy")]
         public virtual Guid? AddedById { get; set; }
