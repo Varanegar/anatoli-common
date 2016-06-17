@@ -1,0 +1,4 @@
+C:\Projects\Anatoli-Common\Anatoli.Common\Anatoli.WebApi.Common\bin\Debug\Anatoli.WebApi.Common.dll
+C:\Projects\Anatoli-Common\Anatoli.Common\Anatoli.WebApi.Common\bin\Debug\Anatoli.WebApi.Common.pdb
+C:\Projects\Anatoli-Common\Anatoli.Common\Anatoli.WebApi.Common\obj\Debug\Anatoli.WebApi.Common.dll
+C:\Projects\Anatoli-Common\Anatoli.Common\Anatoli.WebApi.Common\obj\Debug\Anatoli.WebApi.Common.pdb
