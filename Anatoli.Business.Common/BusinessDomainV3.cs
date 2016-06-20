@@ -64,7 +64,7 @@ namespace Anatoli.Common.Business
         #endregion
 
         #region Methods
-        public virtual Expression<Func<TSource, TResult>> GetAllSelector<TResult>()
+        public virtual Expression<Func<TSource, TResult>> GetAllSelector<TResult>() where TResult : class, new()
         {
             return null;
         }
@@ -156,7 +156,7 @@ namespace Anatoli.Common.Business
             }
         }
 
-        public async Task<TResult> GetByIdAsync<TResult>(Guid id)
+        public async Task<TResult> GetByIdAsync<TResult>(Guid id) where TResult : class, new()
         {
             if (GetAllSelector<TResult>() == null)
                 return await MainRepository.GetByIdAsync(id, GetAllSelector<TResult>());
@@ -164,7 +164,7 @@ namespace Anatoli.Common.Business
             return await MainRepository.GetByIdAsync<TResult>(id);
         }
 
-        public async Task<List<TResult>> GetAllAsync<TResult>()
+        public async Task<List<TResult>> GetAllAsync<TResult>() where TResult : class, new()
         {
             return await GetAllAsync<TResult>(null);
         }
@@ -175,12 +175,12 @@ namespace Anatoli.Common.Business
             return await MainRepository.FindAllAsync(predicate, selector);
         }
 
-        public async Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<TSource, bool>> predicate)
+        public async Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<TSource, bool>> predicate) where TResult : class, new()
         {
             return await GetAllAsync(predicate, GetAllSelector<TResult>());
         }
 
-        public async Task<List<TResult>> GetAllChangedAfterAsync<TResult>(DateTime selectedDate)
+        public async Task<List<TResult>> GetAllChangedAfterAsync<TResult>(DateTime selectedDate) where TResult : class, new()
         {
             return await GetAllAsync<TResult>(p => p.LastUpdate >= selectedDate);
         }
