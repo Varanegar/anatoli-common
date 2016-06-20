@@ -96,6 +96,20 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Anatoli.Business.Common\Anatoli.Common.Business.csproj">
+      <Project>{7bce3397-0946-4c19-b0ae-1e828d7331dc}</Project>
+      <Name>Anatoli.Common.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Anatoli.Common.ViewModel\Anatoli.Common.ViewModel.csproj">
+      <Project>{19e3d42e-eda8-4b62-a549-3c99d4f7c822}</Project>
+      <Name>Anatoli.Common.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Anatoli.DataAccess.Common\Anatoli.Common.DataAccess.csproj">
+      <Project>{19c9159c-9a34-478f-bced-29ddf8fb02c8}</Project>
+      <Name>Anatoli.Common.DataAccess</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
