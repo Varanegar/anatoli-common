@@ -38,7 +38,7 @@ namespace Anatoli.Common.Business
                 var currentAssembly = typeof(TSource).GetTypeInfo().Assembly;
 
                 return currentAssembly.DefinedTypes
-                                      .Where(typ => typ.ImplementedInterfaces.Any(inter => inter == typeof(IRepository<TSource>)))
+                                      .Where(typ => typ.IsClass && typ.ImplementedInterfaces.Any(inter => inter == typeof(IRepository<TSource>)))
                                       .FirstOrDefault();
             }
         }
