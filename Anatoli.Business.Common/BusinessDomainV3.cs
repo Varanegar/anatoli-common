@@ -196,7 +196,7 @@ namespace Anatoli.Common.Business
                 foreach (var item in data)
                 {
                     var model = dataList.Find(p => p.Id == item.Id);
-
+                    if (item.Id == Guid.Empty) item.Id = Guid.NewGuid();
                     item.ApplicationOwnerId = OwnerInfo.ApplicationOwnerKey;
                     item.DataOwnerId = OwnerInfo.DataOwnerKey;
                     item.DataOwnerCenterId = OwnerInfo.DataOwnerCenterKey;
