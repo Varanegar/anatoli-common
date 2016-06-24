@@ -158,7 +158,7 @@ namespace Anatoli.Common.Business
 
         public async Task<TResult> GetByIdAsync<TResult>(Guid id) where TResult : class, new()
         {
-            if (GetAllSelector<TResult>() == null)
+            if (GetAllSelector<TResult>() != null)
                 return await MainRepository.GetByIdAsync(id, GetAllSelector<TResult>());
 
             return await MainRepository.GetByIdAsync<TResult>(id);
