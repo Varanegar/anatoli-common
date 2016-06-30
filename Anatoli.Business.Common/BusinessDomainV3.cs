@@ -289,6 +289,13 @@ namespace Anatoli.Common.Business
         {
             return MainRepository.GetAll();
         }
+
+        public virtual async Task<List<TSource>> ImportExcelToDB(string filePath, bool deleteFile = false)
+        {
+            var model = await MainRepository.ImportExcelToDB(filePath, deleteFile);
+
+            return model;
+        }
         #endregion
     }
 }

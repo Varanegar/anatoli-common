@@ -23,5 +23,6 @@ namespace Anatoli.Common.Business.Interfaces
         Task DeleteAsync(List<TSource> data);
         Task DeleteAsync<TResult>(List<TResult> data) where TResult : CBaseViewModel;
         Task CheckDeletedAsync<TResult>(List<TResult> data) where TResult : CBaseViewModel, new();
+        Task<List<TSource>> ImportExcelToDB(string filePath, bool deleteFile = false);
     }
 }

@@ -47,9 +47,18 @@ namespace Anatoli.Common.DataAccess.Interfaces
         /// <param name = "cacheTimeOut">default timeout equals 300 seconds</param>
         /// <returns></returns>
         Task<IEnumerable<T>> GetFromCachedAsync(Expression<Func<T, bool>> predicate, int cacheTimeOut = 300);
-        Task<IEnumerable<TResult>> GetFromCachedAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector, int cacheTimeOut = 300)where TResult : class;
+        Task<IEnumerable<TResult>> GetFromCachedAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector, int cacheTimeOut = 300) where TResult : class;
         void Add(T entity);
         Task<T> AddAsync(T entity);
+        Task<List<T>> AddRangeAsync(List<T> model);
+        /// <summary>
+        /// To import excel data to DB, dependencies: log4net,AccessDatabaseEngine
+        /// http://www.microsoft.com/download/en/confirmation.aspx?id=23734
+        /// </summary>
+        /// <param name="filePath">physical file path</param>
+        /// <param name="deleteFile">to delete the file after saving in db</param>
+        /// <returns></returns>
+        Task<List<T>> ImportExcelToDB(string filePath, bool deleteFile = false);
         void Update(T entity);
         Task<T> UpdateAsync(T entity);
         /// <summary>

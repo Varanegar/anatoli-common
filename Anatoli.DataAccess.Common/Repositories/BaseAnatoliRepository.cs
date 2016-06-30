@@ -12,6 +12,8 @@ using AutoMapper.QueryableExtensions;
 using Anatoli.Common.DataAccess.Models;
 using System.Data.Entity.Infrastructure;
 using Anatoli.Common.DataAccess.Interfaces;
+using System.IO;
+using LinqToExcel;
 
 namespace Anatoli.Common.DataAccess.Repositories
 {
@@ -168,6 +170,48 @@ namespace Anatoli.Common.DataAccess.Repositories
                 DbSet.Add(entity);
             var factory = Task<T>.Factory;
             return await factory.StartNew(() => entity);
+        }
+
+        public virtual async Task<List<T>> AddRangeAsync(List<T> model)
+        {
+            var dbEntityEntry = DbContext.Entry(model);
+            if (dbEntityEntry.State == EntityState.Detached)
+                dbEntityEntry.State = EntityState.Added;
+            else
+                DbSet.AddRange(model);
+
+            return await Task<List<T>>.Factory.StartNew(() => model);
+        }
+
+        public virtual async Task<List<T>> ImportExcelToDB(string filePath, bool deleteFile = false)
+        {
+            try
+            {
+                var connectionString = "";
+
+                if (filePath.EndsWith(".xls"))
+                    connectionString = string.Format("Provider=Microsoft.Jet.OLEDB.4.0; data source={0}; Extended Properties=Excel 8.0;", filePath);
+                else if (filePath.EndsWith(".xlsx"))
+                    connectionString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=\"Excel 12.0 Xml;HDR=YES;IMEX=1\";", filePath);
+                else
+                    throw new InvalidOperationException("Invalid excel file format!");
+
+                var data = await new ExcelQueryFactory(filePath).Worksheet<T>("Sheet1").ToListAsync();
+
+                var model = await AddRangeAsync(data);
+
+                await SaveChangesAsync();
+
+                //deleting excel file from folder  
+                if (deleteFile && File.Exists(filePath))
+                    File.Delete(filePath);
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public virtual void Update(T entity)
