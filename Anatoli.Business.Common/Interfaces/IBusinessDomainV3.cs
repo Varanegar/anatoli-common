@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Collections.Generic;
 using Anatoli.Common.DataAccess.Models;
 using Anatoli.Common.ViewModel;
+using Anatoli.Common.DynamicLinq;
 
 namespace Anatoli.Common.Business.Interfaces
 {
@@ -16,6 +17,9 @@ namespace Anatoli.Common.Business.Interfaces
         Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<TSource, bool>> predicate, Expression<Func<TSource, TResult>> selector);
         Task<TResult> GetByIdAsync<TResult>(Guid id) where TResult : class, new();
         Task<List<TResult>> GetAllChangedAfterAsync<TResult>(DateTime selectedDate) where TResult : class, new();
+
+        Task<DataSourceResult> Filter<TResult>(DataSourceRequest request, Expression<Func<TSource, bool>> predicate, Expression<Func<TSource, TResult>> selector);
+        
         Task PublishAsync(List<TSource> data);
         Task PublishAsync<TResult>(List<TResult> data) where TResult : CBaseViewModel;
         Task PublishAsync(TSource data);

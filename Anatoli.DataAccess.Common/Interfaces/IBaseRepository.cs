@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Data.Entity;
+using Anatoli.Common.DynamicLinq;
 
 namespace Anatoli.Common.DataAccess.Interfaces
 {
@@ -48,6 +49,9 @@ namespace Anatoli.Common.DataAccess.Interfaces
         /// <returns></returns>
         Task<IEnumerable<T>> GetFromCachedAsync(Expression<Func<T, bool>> predicate, int cacheTimeOut = 300);
         Task<IEnumerable<TResult>> GetFromCachedAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector, int cacheTimeOut = 300) where TResult : class;
+
+        Task<DataSourceResult> Filter<TResult>(DataSourceRequest request, Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector);
+
         void Add(T entity);
         Task<T> AddAsync(T entity);
         Task<List<T>> AddRangeAsync(List<T> model);

@@ -14,6 +14,7 @@ using System.Data.Entity.Infrastructure;
 using Anatoli.Common.DataAccess.Interfaces;
 using System.IO;
 using LinqToExcel;
+using Anatoli.Common.DynamicLinq;
 
 namespace Anatoli.Common.DataAccess.Repositories
 {
@@ -143,6 +144,18 @@ namespace Anatoli.Common.DataAccess.Repositories
             return await DbSet.AsExpandable().Where(CalcExtraPredict(predicate)).ProjectTo<TResult>().FromCacheAsync(CachePolicy.WithDurationExpiration(TimeSpan.FromSeconds(300)), tags: new List<string> { typeof(T).ToString() });
         }
 
+        public virtual async Task<DataSourceResult> Filter<TResult>(DataSourceRequest request, Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
+        {
+            IQueryable<TResult> query;
+            if (selector != null)
+                query = DbSet.AsExpandable().Where(CalcExtraPredict(predicate)).Select(selector);
+            else
+                query = DbSet.AsExpandable().Where(CalcExtraPredict(predicate)).ProjectTo<TResult>();
+
+            return await query.ToDataSourceResult(request);
+            //Task.Factory.StartNew(() => query.ToDataSourceResult(request));
+        }
+
         protected virtual Expression<Func<T, bool>> CalcExtraPredict(Expression<Func<T, bool>> predict = null)
         {
             if (predict == null)
@@ -187,15 +200,6 @@ namespace Anatoli.Common.DataAccess.Repositories
         {
             try
             {
-                var connectionString = "";
-
-                if (filePath.EndsWith(".xls"))
-                    connectionString = string.Format("Provider=Microsoft.Jet.OLEDB.4.0; data source={0}; Extended Properties=Excel 8.0;", filePath);
-                else if (filePath.EndsWith(".xlsx"))
-                    connectionString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=\"Excel 12.0 Xml;HDR=YES;IMEX=1\";", filePath);
-                else
-                    throw new InvalidOperationException("Invalid excel file format!");
-
                 var data = await new ExcelQueryFactory(filePath).Worksheet<T>("Sheet1").ToListAsync();
 
                 var model = await AddRangeAsync(data);

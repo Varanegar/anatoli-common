@@ -17,6 +17,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Anatoli.Common.DynamicLinq;
 
 namespace Anatoli.Common.Business
 {
@@ -295,6 +296,11 @@ namespace Anatoli.Common.Business
             var model = await MainRepository.ImportExcelToDB(filePath, deleteFile);
 
             return model;
+        }
+
+        public virtual async Task<DataSourceResult> Filter<TResult>(DataSourceRequest request, Expression<Func<TSource, bool>> predicate, Expression<Func<TSource, TResult>> selector)
+        {
+            return await MainRepository.Filter(request, predicate, selector);
         }
         #endregion
     }

@@ -10,3 +10,5 @@ Anatoli.Common/obj/
 Anatoli.Common.ViewModel/bin/
 Anatoli.Common.ViewModel/obj/
 .vs/
+packages/
+bin/
