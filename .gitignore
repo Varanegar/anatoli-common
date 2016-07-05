@@ -12,3 +12,4 @@ Anatoli.Common.ViewModel/obj/
 .vs/
 packages/
 bin/
+*.user
